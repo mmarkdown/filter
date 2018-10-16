@@ -21,6 +21,8 @@ func New() *Plugin {
 	return p
 }
 
+func Name() string { return "emph" }
+
 func (r *Plugin) Emph(w io.Writer, node *ast.Emph, entering bool) { io.WriteString(w, r.marker) }
 
 func (r *Plugin) RenderNode(w io.Writer, node ast.Node, entering bool) ast.WalkStatus {

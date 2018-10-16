@@ -18,6 +18,8 @@ func New() *Plugin {
 	}
 }
 
+func Name() string { return "noop" }
+
 func (r *Plugin) RenderNode(w io.Writer, node ast.Node, entering bool) ast.WalkStatus {
 	return r.Renderer.RenderNode(w, node, entering)
 }

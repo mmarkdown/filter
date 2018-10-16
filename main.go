@@ -6,12 +6,15 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/gomarkdown/markdown/parser"
 )
 
 var (
-	flagVersion = flag.Bool("version", false, "show filter version")
+	flagVersion = flag.Bool("v", false, "show filter version")
+	flagList    = flag.Bool("l", false, "list all available plugins")
+	flagPlugins = flag.String("p", "noop, emph", "comma separated list of plugins to load")
 )
 
 func main() {
@@ -28,12 +31,28 @@ func main() {
 	}
 	if *flagVersion {
 		fmt.Println(Version)
-		os.Exit(0)
+		return
+	}
+	if *flagList {
+		for name, _ := range Plugins {
+			fmt.Println(name)
+		}
+		return
+	}
+
+	if *flagPlugins == "" {
+		return
 	}
 
 	r := &Renderer{}
-	for _, plugin := range Loaded {
-		r.RegisterPlugin(plugin)
+	requested := strings.Split(*flagPlugins, ",")
+	for _, plugin := range requested {
+		impl, ok := Plugins[plugin]
+		if !ok {
+			log.Fatalf("Plugin %q not found", plugin)
+		}
+
+		r.RegisterPlugin(impl)
 	}
 
 	for _, fileName := range args {

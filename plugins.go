@@ -7,10 +7,11 @@ import (
 )
 
 type Plugin interface {
-	New() *markdown.Renderer
+	New() markdown.Renderer
+	Name() string
 }
 
-var Loaded = []markdown.Renderer{
-	noop.New(),
-	emph.New(),
+var Plugins = map[string]markdown.Renderer{
+	noop.Name(): noop.New(),
+	emph.Name(): emph.New(),
 }
