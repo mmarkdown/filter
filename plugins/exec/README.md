@@ -13,11 +13,11 @@ The image outputted used *must* be a png. The title of the image will be empty: 
 is no text to put in there.
 
 If the original code block has a block level attribute the figure will be wrapped in a subfigure so
-you can reference it from within the document. (TODO).
+you can reference it from within the document.
 
 ## Caption
 
-The caption will be retained. (TODO)
+The caption will be retained and the image will be wrapped in a subfigure.
 
 ## Error handling
 

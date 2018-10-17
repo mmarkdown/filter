@@ -13,6 +13,7 @@ import (
 
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/mmarkdown/mmark/markdown"
+	"github.com/mmarkdown/mmark/mast"
 )
 
 type Plugin struct {
@@ -46,10 +47,22 @@ func (r *Plugin) RenderNode(w io.Writer, node ast.Node, entering bool) ast.WalkS
 	if err != nil {
 		log.Printf("Failed to run %q: %s\n", string(cmd), err)
 	}
+	_, isCaptionFigure := codeblock.GetParent().(*ast.CaptionFigure)
+	attr := mast.AttributeFromNode(codeblock)
 
+	if isCaptionFigure || attr != nil {
+		if attr != nil {
+			w.Write(mast.AttributeBytes(attr))
+			io.WriteString(w, "\n")
+		}
+		io.WriteString(w, "!---\n")
+	}
 	imgdata := "![](data:image/png;base64," + base64.StdEncoding.EncodeToString(data) + ")"
 	io.WriteString(w, imgdata)
 	io.WriteString(w, "\n")
+	if isCaptionFigure || attr != nil {
+		io.WriteString(w, "!---\n")
+	}
 
 	return ast.GoToNext
 

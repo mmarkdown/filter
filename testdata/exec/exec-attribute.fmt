@@ -1,0 +1,8 @@
+# Section One
+
+This is a codeblock
+
+{#fig-one}
+!---
+![](data:image/png;base64,ZGlncmFwaCBEIHsKCiAgQSBbc2hhcGU9ZGlhbW9uZF0KICBCIFtzaGFwZT1ib3hdCiAgQyBbc2hhcGU9Y2lyY2xlXQoKICBBIC0+IEIgW3N0eWxlPWRhc2hlZCwgY29sb3I9Z3JleV0KICBBIC0+IEMgW2NvbG9yPSJibGFjazppbnZpczpibGFjayJdCiAgQSAtPiBEIFtwZW53aWR0aD01LCBhcnJvd2hlYWQ9bm9uZV0KCn0K)
+!---
