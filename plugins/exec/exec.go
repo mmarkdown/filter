@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"sync"
 
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/mmarkdown/mmark/markdown"
@@ -68,7 +69,10 @@ func run(path string, in []byte) ([]byte, error) {
 
 	reader := bufio.NewReader(stdout)
 	data := []byte{}
+	wg := sync.WaitGroup{}
 	go func(reader io.Reader) {
+		wg.Add(1)
+		defer wg.Done()
 		stdin.Write(in)
 		stdin.Close()
 		data, err = ioutil.ReadAll(reader)
@@ -78,5 +82,6 @@ func run(path string, in []byte) ([]byte, error) {
 		return nil, err
 	}
 	cmd.Wait()
+	wg.Wait()
 	return data, err
 }

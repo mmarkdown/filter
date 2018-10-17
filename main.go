@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/mmarkdown/filter/renderer"
 )
 
 var (
@@ -44,7 +44,7 @@ func main() {
 		return
 	}
 
-	r := &Renderer{}
+	r := &renderer.R{}
 	requested := strings.Split(*flagPlugins, ",")
 	for _, plugin := range requested {
 		impl, ok := Plugins[plugin]
@@ -79,9 +79,3 @@ func main() {
 		continue
 	}
 }
-
-// Extensions is exported to we can use it in tests. (copied from mmark)
-var Extensions = parser.Tables | parser.FencedCode | parser.Autolink | parser.Strikethrough |
-	parser.SpaceHeadings | parser.HeadingIDs | parser.BackslashLineBreak | parser.SuperSubscript |
-	parser.DefinitionLists | parser.MathJax | parser.AutoHeadingIDs | parser.Footnotes |
-	parser.Strikethrough | parser.OrderedListStart | parser.Attributes | parser.Mmark
