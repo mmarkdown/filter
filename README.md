@@ -5,10 +5,8 @@ the input according to a bunch of filters (implemented as plugins).
 
 ## Plugins
 
-Currently there are only two plugins:
+Currently there are three plugins:
 
 * noop, a plugin that does nothing.
 * emph, a plugin that replaces `*emphasis*` with `XXemphasisXX`.
-
-Later plugins can take a code block and look the a special language tag (say `exec:dot`) run that
-command, and replace the entire codeblock with an image containing the generated image.
+* exec, a plugin the runs a command using the codeblock contents and replaces it with an image.

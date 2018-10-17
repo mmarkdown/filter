@@ -1,3 +1,3 @@
 # emph
 
-The *emph* plugin rewrite emphasis from `*emph*` to `XXemphXX` (by default).
+The *emph* plugin rewrite emphasis from `*emph*` to `XXemphXX`.
