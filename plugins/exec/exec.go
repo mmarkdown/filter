@@ -63,9 +63,7 @@ func (r *Plugin) RenderNode(w io.Writer, node ast.Node, entering bool) ast.WalkS
 	if isCaptionFigure || attr != nil {
 		io.WriteString(w, "!---\n")
 	}
-
 	return ast.GoToNext
-
 }
 
 func run(path string, in []byte) ([]byte, error) {
