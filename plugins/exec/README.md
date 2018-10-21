@@ -21,5 +21,5 @@ The caption will be retained and the image will be wrapped in a subfigure.
 
 ## Error handling
 
-In case of an error, the code block is left as-is. There is no option hanlding for `CMD`, so if a
+In case of an error, the code block is left as-is. There is no option handling for `CMD`, so if a
 command needs those you need to construct a shell script that can be used as `CMD` instead.

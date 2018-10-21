@@ -1,9 +1,8 @@
-package exec
+package protocol
 
 import (
 	"bufio"
 	"bytes"
-	"encoding/base64"
 	"io"
 	"io/ioutil"
 	"log"
@@ -13,7 +12,6 @@ import (
 
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/mmarkdown/mmark/markdown"
-	"github.com/mmarkdown/mmark/mast"
 )
 
 type Plugin struct {
@@ -27,53 +25,33 @@ func New() *Plugin {
 	}
 }
 
-func Name() string { return "exec" }
+func Name() string { return "protocol" }
+
+const proto = "protocol"
 
 func (r *Plugin) RenderNode(w io.Writer, node ast.Node, entering bool) ast.WalkStatus {
 	codeblock, ok := node.(*ast.CodeBlock)
 	if !ok {
 		return r.Renderer.RenderNode(w, node, entering)
 	}
-	if !bytes.HasPrefix(codeblock.Info, []byte("exec:")) {
-		return r.Renderer.RenderNode(w, node, entering)
-	}
-	// it has a prefix
-	cmd := codeblock.Info[len("exec:"):]
-	if len(cmd) == 0 {
+	if !bytes.Equal(codeblock.Info, []byte(proto)) {
 		return r.Renderer.RenderNode(w, node, entering)
 	}
 
-	data, err := run(string(cmd), codeblock.Literal)
+	data, err := run(proto, codeblock.Literal)
 	if err != nil {
-		log.Printf("Failed to run %q: %s\n", string(cmd), err)
+		log.Printf("Failed to run %q: %s\n", proto, err)
 		return r.Renderer.RenderNode(w, node, entering)
 	}
-	_, isCaptionFigure := codeblock.GetParent().(*ast.CaptionFigure)
-	attr := mast.AttributeFromNode(codeblock)
-
-	if isCaptionFigure || attr != nil {
-		if attr != nil {
-			w.Write(mast.AttributeBytes(attr))
-			io.WriteString(w, "\n")
-		}
-		io.WriteString(w, "!---\n")
-	}
-	imgdata := "![](data:image/png;base64," + base64.StdEncoding.EncodeToString(data) + ")"
-	io.WriteString(w, imgdata)
-	io.WriteString(w, "\n")
-	if isCaptionFigure || attr != nil {
-		io.WriteString(w, "!---\n")
-	}
-	return ast.GoToNext
+	codeblock.Literal = data
+	codeblock.Info = nil
+	return r.Renderer.RenderNode(w, node, entering)
 }
 
 func run(path string, in []byte) ([]byte, error) {
-	cmd := exec.Command(path)
+	// instead of giving 'in' on stdin, we need to supply it on the command line.
+	cmd := exec.Command(path, string(in))
 	cmd.Stderr = os.Stderr
-	stdin, err := cmd.StdinPipe()
-	if err != nil {
-		return nil, err
-	}
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		return nil, err
@@ -85,8 +63,6 @@ func run(path string, in []byte) ([]byte, error) {
 	go func(reader io.Reader) {
 		wg.Add(1)
 		defer wg.Done()
-		stdin.Write(in)
-		stdin.Close()
 		data, err = ioutil.ReadAll(reader)
 	}(reader)
 
