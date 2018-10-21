@@ -16,7 +16,7 @@ In case of an error, the code block is left as-is.
 This markdown file:
 
 ~~~
-This is a protocol
+We describe the following protocol:
 
 ``` protocol
 Source:16,TTL:8,Reserved:40
@@ -27,7 +27,7 @@ Figure: This is a protocol.
 Will be transformed with `filter -p protocol < protocol.md | mmark -markdown`, to:
 
 ~~~
-We describe the following protocols:
+We describe the following protocol:
 
 ```
  0                   1                   2                   3
@@ -43,4 +43,4 @@ Figure: This is a protocol.
 
 ## See Also
 
-[http://www.luismg.com/protocol/](http://www.luismg.com/protocol/), and the *exec* plugin.
+[http://www.luismg.com/protocol/](http://www.luismg.com/protocol/) and the *exec* plugin.
