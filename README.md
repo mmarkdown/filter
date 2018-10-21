@@ -1,15 +1,15 @@
-# Filter
+# Mmark Filter
 
-Filter is a markdown filter. It takes in a markdown file (possibly on standard input) and translate
-the input according to a bunch of filters (implemented as plugins).
+mmark-filter is a markdown filter. It takes in a markdown file (possibly on standard input) and
+translates the input according to a bunch of filters (implemented as plugins).
 
 ## Plugins
 
-Currently there are 4 plugins:
+Currently these plugins exist:
 
 *  noop, a plugin that does nothing.
 
-*  emph, a plugin that replaces `*emphasis*` with `XXemphasisXX`.
+*  emph, a plugin that replaces `*emphasis*` with `XXemphasisXX`, added mostly as an example.
 
 *  exec, a plugin the runs a command using the codeblock contents and replaces it with an image.
 
