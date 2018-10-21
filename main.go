@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	flagVersion = flag.Bool("v", false, "show filter version")
+	flagVersion = flag.Bool("v", false, "show version")
 	flagList    = flag.Bool("l", false, "list all available plugins")
 	flagPlugins = flag.String("p", "noop,emph", "comma separated list of plugins to load")
 )
