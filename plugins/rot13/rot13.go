@@ -25,8 +25,7 @@ func (r *Plugin) RenderNode(w io.Writer, node ast.Node, entering bool) ast.WalkS
 	if !ok {
 		return r.Renderer.RenderNode(w, node, entering)
 	}
-	txt := markdown.EscapeText(text.Literal)
-	for _, c := range txt {
+	for _, c := range text.Literal {
 		w.Write([]byte{rot13(c)})
 	}
 	return ast.GoToNext
