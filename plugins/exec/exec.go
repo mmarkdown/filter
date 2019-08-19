@@ -12,8 +12,8 @@ import (
 	"sync"
 
 	"github.com/gomarkdown/markdown/ast"
-	"github.com/mmarkdown/mmark/markdown"
 	"github.com/mmarkdown/mmark/mast"
+	"github.com/mmarkdown/mmark/render/markdown"
 )
 
 type Plugin struct {
