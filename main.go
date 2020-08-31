@@ -11,6 +11,8 @@ import (
 	"github.com/mmarkdown/filter/renderer"
 )
 
+//go:generate go run plugins_generate.go
+
 var (
 	flagVersion = flag.Bool("v", false, "show version")
 	flagList    = flag.Bool("l", false, "list all available plugins")

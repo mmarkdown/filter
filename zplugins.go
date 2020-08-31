@@ -15,9 +15,9 @@ type Plugin interface {
 }
 
 var Plugins = map[string]markdown.Renderer{
-	noop.Name():     noop.New(),
 	emph.Name():     emph.New(),
 	exec.Name():     exec.New(),
-	rot13.Name():    rot13.New(),
+	noop.Name():     noop.New(),
 	protocol.Name(): protocol.New(),
+	rot13.Name():    rot13.New(),
 }
